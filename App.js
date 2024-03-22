@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
   return (
@@ -8,16 +8,44 @@ export default function App() {
       <View style={{width: '95%', height: 50, borderWidth: 3, borderRadius: 10, flexDirection: 'row', borderColor: 'white',justifyContent: 'center'}}>
             <Text style={{fontSize: 30, color: 'white'}}>My To-Do List</Text>
       </View>
-      <View style={{height: 5}}></View>
-      <View style={{width: '95%', height: 50, borderWidth: 3, borderRadius: 10, flexDirection: 'row', borderColor: 'white',justifyContent: 'center'}}>
-            <Text style={{fontSize: 20, color: 'white'}}>Task 1</Text>
+      <View style={{height: 50}}></View>
+
+      <View style={styles.listItem}>
+            <Text style={styles.listItemText}>Task 1</Text>
       </View>
+
+      <View style={{height: 10}}></View>
+
+      <View style={styles.listItem}>
+            <Text style={styles.listItemText}>Task 2</Text>
+      </View>
+
+      <View style={{height: 10}}></View>
+
+      <View style={styles.listItem}>
+            <Text style={styles.listItemText}>Task 3</Text>
+      </View>
+
+      <View style={{height: '65%'}}></View>
+
+      <View style={[styles.listItem, {justifyContent: 'center'}]}>
+        <Pressable
+          //style={getButStyle}
+          onPress={() => {
+            console.log('But Pressed');
+          }}
+        >
+          <Text style= {[{color:'white', fontSize: 20}]}>Add New To-Do</Text>
+        </Pressable>
+      </View>
+
+
 
       </View>
 
-      <View style={{}}>
+      
         
-      </View>  
+      
     </View>
 
     
@@ -33,7 +61,19 @@ const styles = StyleSheet.create({
   },
 
   listItem: {
+    padding: 4,
+    width: '95%',
+    height: 40,
+    borderWidth: 3,
+    borderRadius: 10,
+    flexDirection: 'row',
+    borderColor: 'white',
+    justifyContent: 'left',
+  },
 
+  listItemText: {
+    fontSize: 20,
+    color: 'white',
   }
 
 });
