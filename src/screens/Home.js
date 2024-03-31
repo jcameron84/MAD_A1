@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from "@expo/vector-icons";
 
 export default Home = function ({navigation}) {
   const navToAddToDo = () => navigation.navigate('AddToDo')
@@ -29,7 +30,8 @@ export default Home = function ({navigation}) {
 
       <View style={{height: '60%'}}></View>
 
-      <View style={[styles.listItem, {justifyContent: 'center'}]}>
+      <View style={[styles.listItem, {justifyContent: 'center', flexDirection:'row'}]}>
+        <Ionicons name="add" size={28} color='white'/>
         <Pressable
           //style={getButStyle}
           onPress={() => {
@@ -37,7 +39,8 @@ export default Home = function ({navigation}) {
             console.log('But Pressed');
           }}
         >
-          <Text style= {[{color:'white', fontSize: 20}]} onPress={navToAddToDo}>+ Add New To-Do</Text>
+          
+          <Text style= {[{color:'white', fontSize: 20}]} onPress={navToAddToDo}>Add New To-Do</Text>
         </Pressable>
       </View>
 

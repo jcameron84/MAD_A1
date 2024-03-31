@@ -1,39 +1,92 @@
 import { StatusBar } from 'expo-status-bar';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View, Button } from 'react-native';
+import { Ionicons } from "@expo/vector-icons";
+import { TextInput } from 'react-native-gesture-handler';
+import { useState } from 'react';
 
-export default function AddToDo() {
+
+export default AddToDo = function ({navigation}) {
+  const navToHome = () => navigation.navigate('Home')
+  const [titleText,setTextTitle] = useState('');
+  const [descText,setTextDesc] = useState('');
   return (
-    <View style={{padding: 20, backgroundColor: '#292929', alignItems: 'center', flex: 1, justifyContent: 'top'}}>
-    <View style={{padding: 20, width: '100%', height: '100%', borderWidth: 3, borderRadius: 10, flexDirection: 'column', flex: 1, borderColor: 'white',justifyContent: 'top'}}>
-      <View style={{width: '95%', height: 50, borderWidth: 3, borderRadius: 10, flexDirection: 'row', borderColor: 'white',justifyContent: 'center'}}>
+    <View style={{padding: 20, backgroundColor: '#292929', alignItems: 'center', flex: 1, justifyContent: 'top', alignItems:'center'}}>
+    <View style={{padding: 20, width: '100%', height: '100%', borderWidth: 3, borderRadius: 10, flexDirection: 'column', flex: 1, borderColor: 'white',justifyContent: 'top', alignItems:'center'}}>
+      <View style={{width: '95%', height: 50, borderWidth: 3, borderRadius: 10, flexDirection: 'row', borderColor: 'white',justifyContent: 'center', alignItems:'center'}}>
             <Text style={{fontSize: 30, color: 'white'}}>Add New To-Do</Text>
       </View>
-      <View style={{height: 50}}></View>
+      
+      
+      <View style={{height: 50}}/>
+        <Text style={{color:'white', fontSize:20}}>Title</Text>
+        <TextInput
+          placeholderTextColor={'white'}
+          placeholder="Add Title..."
+          style={styles.input}
+          value={titleText}
+          onChangeText={setTextTitle}
+          //onSubmitEditing={addText} 
+      />
 
+      <View style={{height: 50}}/>
+        <Text style={{color:'white', fontSize:20}}>Description</Text>
+        <TextInput
+          placeholderTextColor={'white'}
+          placeholder={`Add Description...`}
+          multiline={true}
+          style={[styles.input, styles.multiLineText]}
+
+          value={descText}
+          onChangeText={setTextDesc}
+          //onSubmitEditing={addText} 
+      />
+
+      <View style={{height: '40%'}}></View>
       
 
-      <View style={{height: '65%'}}></View>
 
-      <View style={[styles.listItem, {justifyContent: 'center'}]}>
+      <View style={{flexDirection: 'row', alignContent: 'center', justifyContent:'center', padding: 10}}>
+
+      <View style={[styles.listItem, {justifyContent: 'space-evenly', width:'40%', flexDirection:"row", alignContent:'center'}]}>
+      <Ionicons name="close-outline" size={28} color='white'/>
         <Pressable
           //style={getButStyle}
           onPress={() => {
             console.log('But Pressed');
           }}
         >
-          <Text style= {[{color:'white', fontSize: 20}]}>+ Add New To-Do</Text>
+          
+          <Text style= {[{color:'white', fontSize: 20}]} onPress={navToHome}>Cancel</Text>
+          
         </Pressable>
       </View>
 
+          <View style={{width: 10}}/>
 
+      <View style={[styles.listItem, {justifyContent: 'space-evenly', width: '40%'}]}>
+      <Ionicons name="save-outline" size={28} color='white'/>
+        <Pressable
+          //style={getButStyle}
+          onPress={() => {
+            console.log('But Pressed');
+          }}
+        >
+          <Text style= {[{color:'white', fontSize: 20}]}>Save</Text>
+          
+        </Pressable>
+      </View>
 
       </View>
+
+
+
+      
 
       
         
       
     </View>
-
+    </View>
     
   );
 }
@@ -60,6 +113,22 @@ const styles = StyleSheet.create({
   listItemText: {
     fontSize: 20,
     color: 'white',
+  },
+
+  input: {
+    height: 40,
+    width: '95%',
+    borderRadius: 10,
+    borderWidth: 3,
+    padding: 10,
+    margin: 10,
+    borderColor: 'white',
+    color: 'white',
+  },
+
+  multiLineText: {
+    minHeight: 100,
+    textAlignVertical: 'top'
   }
 
 });
