@@ -3,12 +3,39 @@ import { Pressable, StyleSheet, Text, View, Button } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import { TextInput } from 'react-native-gesture-handler';
 import { useState } from 'react';
+//import { toast } from 'react-toastify';
+//import 'react-toastify/dist/ReactToastify.css';
+
 
 
 export default AddToDo = function ({navigation}) {
   const navToHome = () => navigation.navigate('Home')
   const [titleText,setTextTitle] = useState('');
   const [descText,setTextDesc] = useState('');
+  const [todos, setTodos] = useState([]);
+
+  const saveHandler = () => {
+    if (descText === "" || titleText === ""){
+      return
+    } else {
+      const title = titleText || 'Untitled Task'
+      const description = descText || 'No Description'
+      const maxID = todos.reduce((a,todo)=>Math.max(a,todo.id),0)
+      const newTodo = {id:maxID+1, title, description, finished:false}
+      setTodos(cur=>[...cur,newTodo]);
+      console.log({todos});
+      window.alert('Todo Added Successfully');
+    }
+  }
+
+  const clearInputs = () => {
+    setTextDesc('');
+    setTextTitle(''); 
+  }
+
+
+
+
   return (
     <View style={{padding: 20, backgroundColor: '#292929', alignItems: 'center', flex: 1, justifyContent: 'top', alignItems:'center'}}>
     <View style={{padding: 20, width: '100%', height: '100%', borderWidth: 3, borderRadius: 10, flexDirection: 'column', flex: 1, borderColor: 'white',justifyContent: 'top', alignItems:'center'}}>
@@ -25,7 +52,6 @@ export default AddToDo = function ({navigation}) {
           style={styles.input}
           value={titleText}
           onChangeText={setTextTitle}
-          //onSubmitEditing={addText} 
       />
 
       <View style={{height: 50}}/>
@@ -35,10 +61,8 @@ export default AddToDo = function ({navigation}) {
           placeholder={`Add Description...`}
           multiline={true}
           style={[styles.input, styles.multiLineText]}
-
           value={descText}
           onChangeText={setTextDesc}
-          //onSubmitEditing={addText} 
       />
 
       <View style={{height: '40%'}}></View>
@@ -50,14 +74,11 @@ export default AddToDo = function ({navigation}) {
       <View style={[styles.listItem, {justifyContent: 'space-evenly', width:'40%', flexDirection:"row", alignContent:'center'}]}>
       <Ionicons name="close-outline" size={28} color='white'/>
         <Pressable
-          //style={getButStyle}
           onPress={() => {
             console.log('But Pressed');
           }}
         >
-          
-          <Text style= {[{color:'white', fontSize: 20}]} onPress={navToHome}>Cancel</Text>
-          
+          <Text style= {[{color:'white', fontSize: 20}]} onPress={navToHome}>{descText === "" || titleText === "" ? 'Back' : 'Cancel'}</Text>
         </Pressable>
       </View>
 
@@ -66,9 +87,15 @@ export default AddToDo = function ({navigation}) {
       <View style={[styles.listItem, {justifyContent: 'space-evenly', width: '40%'}]}>
       <Ionicons name="save-outline" size={28} color='white'/>
         <Pressable
-          //style={getButStyle}
+          
           onPress={() => {
             console.log('But Pressed');
+            saveHandler();
+            clearInputs();
+            {todos.map((todo) => 
+              <View>
+                <Text>{todo.title}</Text>
+              </View>)}
           }}
         >
           <Text style= {[{color:'white', fontSize: 20}]}>Save</Text>
@@ -76,15 +103,9 @@ export default AddToDo = function ({navigation}) {
         </Pressable>
       </View>
 
-      </View>
-
-
-
-      
-
-      
         
-      
+
+      </View>     
     </View>
     </View>
     
