@@ -1,10 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
+import addToDo from './addToDo';
+
+
 
 
 export default Home = function ({ navigation, todos }) {
   const navToAddToDo = () => navigation.navigate('AddToDo')
+  
 
   return ( 
     <View style={{padding: 20, backgroundColor: '#292929', alignItems: 'center', flex: 1, justifyContent: 'top'}}>
@@ -19,11 +23,11 @@ export default Home = function ({ navigation, todos }) {
     
      
       {todos && todos.map(todo => (
-            <View key={todo.id} style={{ marginVertical: 10 }}>
-              <Text style={{ fontSize: 20, color: 'white' }}>Title: {todo.title}</Text>
-              <Text style={{ fontSize: 16, color: 'white' }}>Description: {todo.description}</Text>
-            </View>
-          ))}
+        <View key={todo.id}>
+          <Text>Title: {todo.title}</Text>
+          <Text>Description: {todo.description}</Text>
+        </View>
+      ))}
       
       
       </View>
@@ -42,19 +46,9 @@ export default Home = function ({ navigation, todos }) {
         </Pressable>
       </View>
 
-      <View style={[styles.listItem, {justifyContent: 'center', flexDirection:'row'}]}>
-        <Ionicons name="add" size={28} color='white'/>
-        <Pressable
-          //style={getButStyle}
-          onPress={() => {
-           console.log(todos)
-            
-          }}
-        > 
-          <Text style= {[{color:'white', fontSize: 20}]} onPress={console.log(todos)}>Add New To-Do</Text>
-        </Pressable>
+    
       </View>
-      </View>
+  
     </View>
   );
 }

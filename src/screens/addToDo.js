@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View, Button } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import { TextInput } from 'react-native-gesture-handler';
 import { useState } from 'react';
+import Home from './Home';
 //import { toast } from 'react-toastify';
 //import 'react-toastify/dist/ReactToastify.css';
 
@@ -103,7 +104,7 @@ export default AddToDo = function ({navigation}) {
         </Pressable>
       </View>
 
-        
+      
 
       </View>     
     </View>
