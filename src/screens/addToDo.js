@@ -4,6 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { TextInput } from 'react-native-gesture-handler';
 import { useState } from 'react';
 import Home from './Home';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 //import { toast } from 'react-toastify';
 //import 'react-toastify/dist/ReactToastify.css';
 
@@ -15,7 +17,7 @@ export default AddToDo = function ({navigation}) {
   const [descText,setTextDesc] = useState('');
   const [todos, setTodos] = useState([]);
 
-  const saveHandler = () => {
+  const saveHandler = async () => {
     if (descText === "" || titleText === ""){
       return
     } else {
@@ -25,6 +27,12 @@ export default AddToDo = function ({navigation}) {
       const newTodo = {id:maxID+1, title, description, finished:false}
       setTodos(cur=>[...cur,newTodo]);
       console.log({todos});
+      try {
+        await AsyncStorage.setItem('todos', JSON.stringify([...todos, newTodo]));
+        console.log('Todos saved successfully to AsyncStorage');
+      } catch (error) {
+        console.error('Error saving todos to AsyncStorage:', error);
+      }
       window.alert('Todo Added Successfully');
     }
   }
@@ -93,10 +101,6 @@ export default AddToDo = function ({navigation}) {
             console.log('But Pressed');
             saveHandler();
             clearInputs();
-            {todos.map((todo) => 
-              <View>
-                <Text>{todo.title}</Text>
-              </View>)}
           }}
         >
           <Text style= {[{color:'white', fontSize: 20}]}>Save</Text>

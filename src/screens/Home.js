@@ -1,13 +1,40 @@
+import { useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
-import addToDo from './addToDo';
+import { todos } from './addToDo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { FlatList } from 'react-native-gesture-handler';
 
 
 
 
-export default Home = function ({ navigation, todos }) {
+export default Home = function ({ navigation }) {
+
   const navToAddToDo = () => navigation.navigate('AddToDo')
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    const loadTodos = async () => {
+      try {
+        const storedTodos = await AsyncStorage.getItem('todos');
+        if (storedTodos !== null) {
+          setTodos(JSON.parse(storedTodos));
+          console.log('Todos loaded successfully from AsyncStorage');
+        }
+      } catch (error) {
+        console.error('Error loading todos from AsyncStorage:', error);
+      }
+    };
+    loadTodos();
+  }, []);
+
+  const renderItem = ({ item }) => (
+    <View style={styles.listItem}>
+      <Text style={styles.listItemTitle}>{item.title}</Text>
+      <Text style={styles.listItemText}>{item.description}</Text>
+    </View>
+  );
   
 
   return ( 
@@ -20,16 +47,15 @@ export default Home = function ({ navigation, todos }) {
 
 
       <View style={{height: '80%', width: '100%', alignItems: 'center'}}> 
+      
     
-     
-      {todos && todos.map(todo => (
-        <View key={todo.id}>
-          <Text>Title: {todo.title}</Text>
-          <Text>Description: {todo.description}</Text>
-        </View>
-      ))}
-      
-      
+      <FlatList
+        data = {todos}
+        renderItem = {renderItem}
+        keyExtractor={item => item.id.toString()}
+        style = {styles.listContainer}
+      />
+
       </View>
 
       <View style={[styles.listItem, {justifyContent: 'center', flexDirection:'row'}]}>
@@ -62,19 +88,33 @@ const styles = StyleSheet.create({
   },
 
   listItem: {
-    padding: 4,
+    padding: 5,
     width: '95%',
-    height: 40,
-    borderWidth: 3,
+    marginBottom: 10,
+    borderWidth: 2,
     borderRadius: 10,
-    flexDirection: 'row',
+    flexDirection: 'column',
     borderColor: 'white',
     justifyContent: 'left',
+    alignSelf: 'center'
+  },
+
+  listItemTitle: {
+    fontSize: 20,
+    color: 'white',
+    margin: 2,
+    fontWeight: 'bold',
   },
 
   listItemText: {
-    fontSize: 20,
+    fontSize: 15,
     color: 'white',
+  },
+
+  listContainer: {
+    width: '95%',
+    marginBottom: 20
   }
+
 
 });
